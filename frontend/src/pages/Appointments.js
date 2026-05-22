@@ -55,7 +55,9 @@ fetchDailySchedules()
 statusFilter,
 patientFilter,
 doctorFilter,
-dateFilter
+dateFilter,
+fetchAppointments,
+fetchDailySchedules
 
 ])
 
