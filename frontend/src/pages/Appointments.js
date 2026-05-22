@@ -1,103 +1,46 @@
-import {useEffect,useState}
-from "react"
+import { useEffect, useState } from "react"
+import Navbar from "../components/Navbar"
+import StatusBadge from "../components/StatusBadge"
+import API from "../services/api"
 
-import Navbar
-from "../components/Navbar"
+function Appointments() {
 
-import StatusBadge
-from "../components/StatusBadge"
+const [appointments,setAppointments]=useState([])
+const [dailySchedules,setDailySchedules]=useState({})
+const [loading,setLoading]=useState(false)
 
-import API
-from "../services/api"
-
-function Appointments(){
-
-const [appointments,setAppointments]=
-useState([])
-
-const [dailySchedules,
-setDailySchedules]=
-useState({})
-
-const [loading,setLoading]=
-useState(false)
-
-const [formData,setFormData]=
-useState({
-
-patient_id:"",
-doctor_id:"",
-appointment_date:"",
-appointment_time:""
-
+const [formData,setFormData]=useState({
+  patient_id:"",
+  doctor_id:"",
+  appointment_date:"",
+  appointment_time:""
 })
 
-const [statusFilter,setStatusFilter]=
-useState("")
-
-const [patientFilter,setPatientFilter]=
-useState("")
-
-const [doctorFilter,setDoctorFilter]=
-useState("")
-
-const [dateFilter,setDateFilter]=
-useState("")
-// eslint-disable-next-line react-hooks/exhaustive-deps
-useEffect(()=>{
-
-fetchAppointments()
-
-fetchDailySchedules()
-
-},[
-
-statusFilter,
-patientFilter,
-doctorFilter,
-dateFilter,
-fetchAppointments,
-fetchDailySchedules
-
-])
+const [statusFilter,setStatusFilter]=useState("")
+const [patientFilter,setPatientFilter]=useState("")
+const [doctorFilter,setDoctorFilter]=useState("")
+const [dateFilter,setDateFilter]=useState("")
 
 
 // FETCH APPOINTMENTS
 
-const fetchAppointments=
-async()=>{
+const fetchAppointments = async()=>{
 
 try{
 
 setLoading(true)
 
-const response=
-
-await API.get(
-
-`/appointments?
-
-patient_id=${patientFilter}
-
-&doctor_id=${doctorFilter}
-
-&status=${statusFilter}
-
-&date=${dateFilter}`
-
+const response = await API.get(
+`/appointments?patient_id=${patientFilter}&doctor_id=${doctorFilter}&status=${statusFilter}&date=${dateFilter}`
 )
 
-setAppointments(
-response.data
-)
+setAppointments(response.data)
 
 }catch(error){
 
 console.log(error)
 
-}
-
-finally{
+}finally{
 
 setLoading(false)
 
@@ -108,22 +51,15 @@ setLoading(false)
 
 // FETCH DAILY SCHEDULES
 
-const fetchDailySchedules=
-async()=>{
+const fetchDailySchedules = async()=>{
 
 try{
 
-const response=
-
-await API.get(
-
+const response = await API.get(
 `/appointments/daily-schedules?date=${dateFilter}`
-
 )
 
-setDailySchedules(
-response.data
-)
+setDailySchedules(response.data)
 
 }catch(error){
 
@@ -134,6 +70,21 @@ console.log(error)
 }
 
 
+// IMPORTANT — useEffect FUNCTIONS KINDA
+
+useEffect(()=>{
+
+fetchAppointments()
+fetchDailySchedules()
+
+},[
+statusFilter,
+patientFilter,
+doctorFilter,
+dateFilter
+])
+
+
 // FORM CHANGE
 
 const handleChange=(e)=>{
@@ -141,9 +92,7 @@ const handleChange=(e)=>{
 setFormData({
 
 ...formData,
-
-[e.target.name]:
-e.target.value
+[e.target.name]:e.target.value
 
 })
 
