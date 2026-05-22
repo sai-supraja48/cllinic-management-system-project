@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import Navbar from "../components/Navbar"
 import StatusBadge from "../components/StatusBadge"
 import API from "../services/api"
@@ -24,7 +24,7 @@ const [dateFilter,setDateFilter]=useState("")
 
 // FETCH APPOINTMENTS
 
-const fetchAppointments = async()=>{
+const fetchAppointments = useCallback(async()=>{
 
 try{
 
@@ -46,12 +46,17 @@ setLoading(false)
 
 }
 
-}
+},[
+patientFilter,
+doctorFilter,
+statusFilter,
+dateFilter
+])
 
 
 // FETCH DAILY SCHEDULES
 
-const fetchDailySchedules = async()=>{
+const fetchDailySchedules = useCallback(async()=>{
 
 try{
 
@@ -67,7 +72,9 @@ console.log(error)
 
 }
 
-}
+},[
+dateFilter
+])
 
 
 // IMPORTANT — useEffect FUNCTIONS KINDA
@@ -75,13 +82,12 @@ console.log(error)
 useEffect(()=>{
 
 fetchAppointments()
+
 fetchDailySchedules()
 
 },[
-statusFilter,
-patientFilter,
-doctorFilter,
-dateFilter
+fetchAppointments,
+fetchDailySchedules
 ])
 
 
