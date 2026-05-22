@@ -378,6 +378,27 @@ Backend Deployment:
 Add Render / Railway Link
 
 ---
+## Demo Login Credentials
+
+### Patient
+
+Email: patient@gmail.com  
+Password: 123456
+
+### Doctor
+
+Email: doctor@gmail.com  
+Password: 123456
+
+### Receptionist
+
+Email: receptionist@gmail.com  
+Password: 123456
+
+### Admin
+
+Email: admin@gmail.com  
+Password: 123456
 
 # Author
 
